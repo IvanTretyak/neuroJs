@@ -1,21 +1,25 @@
 let hOut=[]
 let res2=[]
+//NEURO LOGIC AND
 
-const inputs=[1]
-console.log("inputs:"+inputs)
+const inputs1=[1,1]
+const inputs2=[1,0]
+const inputs3=[0,1]
+const inputs4=[0,0]
+console.log("inputs:"+inputs1)
 
 const countOfNeurons=1
 console.log("count of neurons:"+countOfNeurons)
 
 //const weightsStart=addStartWeight(countOfNeurons)
-let weightsStart=0.2
-console.log("starting weights for first step:"+weightsStart)
+let weights=[0.2,0.4]
+console.log("starting weights for first step:"+weights)
 
 const learningRate=1
 console.log("learningRate:"+ learningRate)
 
-const weightsLayout=[1]
-const idealResult=1
+//const weightsLayout=[1]
+const idealResult=[1,1,1,0]
 console.log("idealResult:"+idealResult)
 let resultInput=[]
 
@@ -57,8 +61,10 @@ function findError(idealResult,result){
 //summary of inputs for neuron
 function summaryInputs(inputs,weights){
  let temp=0
-            temp+=inputs*weights
-    console.log(`summary input: ${temp}`)
+    for(let i=0;i<inputs.length;i++){
+            temp+=inputs[i]*weights[i]
+            console.log(`summary input: ${temp}`)
+    } 
     return temp
 }
 //get random value for first step
@@ -82,17 +88,23 @@ console.log("deltaWeight:"+temp)
 
 
 function newWeightValue(weight,output,delta,rate){
-    let temp=0
-    temp=weight-(delta*output*rate)
-    console.log("newWeight:"+temp)
+    let temp=[0,0]
+    for(let i=0;i<weight.length;i++){
+        temp[i]=weight[i]-(delta*output*rate)
+    }
+       
+        console.log("newWeight:"+temp)
     return temp
 }
 //-----------------------------------------------------------
-for (let jj=0;jj<2;jj++){
-        console.log("fix:"+weightsStart)
-        let res=inputActivation(summaryInputs(inputs,weightsStart)) 
+function outputOneNeuron(inputs,weightsStart,learningRate,idealResult){
+    let res=0
+    let jj=0
+    while(Number(res.toFixed(3))!=0.999 && jj<3){
+        console.log(`//////////////////////////////////${jj}/////////////////////////////////////////`)
+        console.log("start weights:"+weightsStart)
+         res=inputActivation(summaryInputs(inputs,weightsStart)) 
         console.log("new Value of Neuron:"+res)
-       
        // res2=inputActivation(summaryInputs(hOut,weightsLayout))
        ////////////////////////
        formOut(res)
@@ -103,8 +115,17 @@ for (let jj=0;jj<2;jj++){
        console.log("new weight:"+weightsStart)
        
        console.log("count with new weight")
+       jj++
        
+ }
+ return res
 }
+
+console.log(outputOneNeuron(inputs1,weights,learningRate,idealResult[0]))
+console.log(outputOneNeuron(inputs2,weights,learningRate,idealResult[1]))
+console.log(outputOneNeuron(inputs3,weights,learningRate,idealResult[2]))
+console.log(outputOneNeuron(inputs4,weights,learningRate,idealResult[3]))
+
  
 
 
